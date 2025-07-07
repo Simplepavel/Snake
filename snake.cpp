@@ -55,3 +55,43 @@ void Snake::move()
         next_segment = next_segment->next;
     }
 }
+void Snake::destroy()
+{
+    SnakeSegment* iterator = head;
+    SnakeSegment* next_segment;
+    while (iterator)
+    {
+        next_segment = iterator->next;
+        delete iterator;
+        iterator = next_segment;
+    }
+}
+void Snake::restart(int new_x, int new_y)
+{
+    destroy();
+    head = new SnakeSegment(new_x, new_y);
+}
+
+
+void Snake::draw(sf::RenderWindow& window)
+{
+    Body.setSize(sf::Vector2f(my_size - 1, my_size - 1));
+    Body.setFillColor(sf::Color(255, 0, 0));
+    Body.setOrigin(Body.getSize().x / 2.0, Body.getSize().y / 2.0);
+    Body.setPosition(head->x * my_size, head->y * my_size);
+    window.draw(Body);
+
+    SnakeSegment* neak_etc = head->next;
+    Body.setFillColor(sf::Color(0, 255, 0));
+    while (neak_etc)
+    {
+        Body.setPosition(neak_etc->x * my_size, neak_etc->y * my_size);
+        window.draw(Body);
+    }   
+}
+
+void Snake::update(sf::RenderWindow& window)
+{
+    move();
+    draw(window);  
+}
