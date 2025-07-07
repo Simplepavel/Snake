@@ -3,6 +3,7 @@ void Snake::grown_up()
 {
     int new_x;
     int new_y;
+
     switch(tail->direction)
     {
         case(Direction::Up):
@@ -14,7 +15,7 @@ void Snake::grown_up()
         new_y = tail->y - 1;
         break;
         case(Direction::Left):
-        new_x = tail->x+1;
+        new_x = tail->x + 1;
         new_y = tail->y;
         break;
         case(Direction::Right):
@@ -22,6 +23,7 @@ void Snake::grown_up()
         new_y = tail->y;
         break;
     }
+
     SnakeSegment* new_segment = new SnakeSegment(new_x, new_y);
     tail->next = new_segment;
     tail = new_segment;
@@ -32,7 +34,8 @@ void Snake::move()
 {
     int last_x = head->x;
     int last_y = head->y;
-    switch (head->direction)
+    Direction last_dir = head->direction;
+    switch (last_dir)
     {
     case (Direction::Up):
     --head->y;     
@@ -50,6 +53,7 @@ void Snake::move()
     SnakeSegment* next_segment = head->next;
     while (next_segment)
     {
+        std::swap(next_segment->direction, last_dir);   
         std::swap(next_segment->x, last_x);
         std::swap(next_segment->y, last_y);
         next_segment = next_segment->next;
@@ -80,18 +84,26 @@ void Snake::draw(sf::RenderWindow& window)
     Body.setOrigin(Body.getSize().x / 2.0, Body.getSize().y / 2.0);
     Body.setPosition(head->x * my_size, head->y * my_size);
     window.draw(Body);
-
     SnakeSegment* neak_etc = head->next;
     Body.setFillColor(sf::Color(0, 255, 0));
     while (neak_etc)
     {
         Body.setPosition(neak_etc->x * my_size, neak_etc->y * my_size);
         window.draw(Body);
-    }   
+        neak_etc = neak_etc->next;
+    }
 }
 
-void Snake::update(sf::RenderWindow& window)
+void Snake::update()
 {
     move();
-    draw(window);  
+}
+
+
+void Snake::CheckBoard()
+{
+    if (head->x > WEIGHT / BLOCK_SIZE){head->x = 0;}
+    if (head->x < 0){head->x = WEIGHT;}
+    if (head->y > HEIGHT / BLOCK_SIZE){head->y = 0;}
+    if (head->y < 0){head->y = HEIGHT;}
 }
