@@ -99,11 +99,8 @@ void Snake::update()
     move();
 }
 
-
-void Snake::CheckBoard()
+void Snake::SetPosition(int new_x, int new_y)
 {
-    if (head->x > WEIGHT / BLOCK_SIZE){head->x = 0;}
-    if (head->x < 0){head->x = WEIGHT;}
-    if (head->y > HEIGHT / BLOCK_SIZE){head->y = 0;}
-    if (head->y < 0){head->y = HEIGHT;}
+    head->x = new_x;
+    head->y = new_y;
 }

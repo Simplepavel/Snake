@@ -28,11 +28,8 @@ class Snake
     SnakeSegment *head;
     SnakeSegment *tail;
     sf::RectangleShape Body;
-    int my_size;
+    int my_size = 16;
     int speed = 15;
-    int HEIGHT = 640;
-    int WEIGHT = 480;
-    int BLOCK_SIZE = 16;
     void destroy();
 
 public:
@@ -43,14 +40,15 @@ public:
     ~Snake() { destroy(); }
     int get_x() { return head->x; }
     int get_y() { return head->y; }
+    void SetPosition(int new_x, int new_y);
     int get_speed() { return speed; }
-    void SetDirection(Direction new_dir) { head->direction = new_dir; }
+    
     Direction GetDirection() { return head->direction; }
+    void SetDirection(Direction new_dir) { head->direction = new_dir; }
+
     void grown_up();
     void move();
     void restart(int new_x, int new_y);
     void draw(sf::RenderWindow &window);
     void update();
-    bool TouchApple(sf::Vector2i &coords) { return coords.x == head->x && coords.y == head->y; }
-    void CheckBoard();
 };
