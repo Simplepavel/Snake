@@ -74,6 +74,7 @@ void Snake::restart(int new_x, int new_y)
 {
     destroy();
     head = new SnakeSegment(new_x, new_y);
+    tail = head;
 }
 
 
@@ -103,4 +104,39 @@ void Snake::SetPosition(int new_x, int new_y)
 {
     head->x = new_x;
     head->y = new_y;
+}
+
+bool Snake::collapsing()
+{
+    SnakeSegment* neck_ect = head->next;
+    int i = 1;
+    while(neck_ect)
+    {
+        if (head->x == neck_ect->x && head->y == neck_ect->y)
+        {
+            return true;
+        }
+        neck_ect = neck_ect->next;
+    }
+    return false;
+}
+
+Direction Snake::GetDirection()
+{
+    SnakeSegment* neak = head->next;
+
+    if (neak)
+    {
+        if (head->x == neak->x)
+        {
+            if (head->y > neak->y){return Direction::Donw;}
+            if (head->y < neak->y){return Direction::Up;}
+        }
+        else if (head->y == neak->y)
+        {
+            if (head->x > neak->x){return Direction::Right;}
+            if (head->x < neak->x){return Direction::Left;}
+        }
+    }
+    return Direction::None;
 }

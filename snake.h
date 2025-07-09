@@ -43,7 +43,7 @@ public:
     void SetPosition(int new_x, int new_y);
     int get_speed() { return speed; }
     
-    Direction GetDirection() { return head->direction; }
+    Direction GetDirection();
     void SetDirection(Direction new_dir) { head->direction = new_dir; }
 
     void grown_up();
@@ -51,4 +51,5 @@ public:
     void restart(int new_x, int new_y);
     void draw(sf::RenderWindow &window);
     void update();
+    bool collapsing();
 };
